@@ -17,7 +17,10 @@ class User(db.Model):
     public_id = db.Column(db.String(100), unique=True)
     username = db.Column(db.String(50), unique=True)
     password_hash = db.Column(db.String(100))
-    public_key = db.Column(db.String(50))
+    public_key = db.Column(db.String(200))
+    hash = db.Column(db.String(200))
+    hash_verified = db.Column(db.DateTime, nullable=False)
+    can_verify = db.Column(db.Integer, nullable=False, default=0)
 
     @property
     def password(self):
