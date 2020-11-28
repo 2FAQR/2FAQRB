@@ -22,7 +22,7 @@ class QRLogin(Resource):
 
 @api.route('/register')
 class QRRegister(Resource):
-   @api.expect(_qr_login, validate=True)
+    @api.expect(_qr_login, validate=True)
     def post(self):
         """Creates a new User """
         auth_header = request.headers.get('Authorization')
@@ -32,7 +32,7 @@ class QRRegister(Resource):
 
 @api.route('/verifylogin')
 class QRLoginVerify(Resource):
-   @api.expect(_qr_login, validate=True)
+    @api.expect(_qr_login, validate=True)
     def post(self):
         """Creates a new User """
         auth_header = request.headers.get('Authorization')
@@ -42,7 +42,7 @@ class QRLoginVerify(Resource):
 
 @api.route('/verifyregister')
 class QRRegisterVerify(Resource):
-   @api.expect(_qr_login, validate=True)
+    @api.expect(_qr_login, validate=True)
     def post(self):
         """Creates a new User """
         auth_header = request.headers.get('Authorization')

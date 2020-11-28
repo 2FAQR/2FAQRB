@@ -1,4 +1,3 @@
-from app.main.model.qr import UserHash
 from app.main.model.user import User
 
 def register(data, auth_header):
