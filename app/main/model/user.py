@@ -18,8 +18,8 @@ class User(db.Model):
     username = db.Column(db.String(50), unique=True)
     password_hash = db.Column(db.String(100))
     public_key = db.Column(db.String(200))
-    hash = db.Column(db.String(200))
-    hash_verified = db.Column(db.DateTime, nullable=False)
+    hash = db.Column(db.String(200), nullable=True, default="first")
+    hash_verified = db.Column(db.DateTime)
     can_verify = db.Column(db.Integer, nullable=False, default=0)
 
     @property

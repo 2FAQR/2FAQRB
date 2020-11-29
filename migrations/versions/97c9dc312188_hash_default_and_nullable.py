@@ -1,8 +1,8 @@
-"""initial database migration
+"""hash default and nullable
 
-Revision ID: f8a2e80b7b48
+Revision ID: 97c9dc312188
 Revises: 
-Create Date: 2020-11-24 01:19:16.213752
+Create Date: 2020-11-29 18:24:54.411382
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'f8a2e80b7b48'
+revision = '97c9dc312188'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -33,6 +33,10 @@ def upgrade():
     sa.Column('public_id', sa.String(length=100), nullable=True),
     sa.Column('username', sa.String(length=50), nullable=True),
     sa.Column('password_hash', sa.String(length=100), nullable=True),
+    sa.Column('public_key', sa.String(length=200), nullable=True),
+    sa.Column('hash', sa.String(length=200), nullable=True),
+    sa.Column('hash_verified', sa.DateTime(), nullable=True),
+    sa.Column('can_verify', sa.Integer(), nullable=False),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('email'),
     sa.UniqueConstraint('public_id'),
