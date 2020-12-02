@@ -3,7 +3,7 @@ from flask_restx import Resource
 
 from app.main.util.decorator import admin_token_required
 from ..util.dto import QrDto
-from ..service.qr_service import register, register_verify, login_verify, login
+from ..service.qr_service import register, register_verify, login_verify, login, check_if_register
 
 api = QrDto.api
 _qr_login = QrDto.qr_login
@@ -22,12 +22,10 @@ class QRLogin(Resource):
 
 @api.route('/register')
 class QRRegister(Resource):
-    @api.expect(_qr_login, validate=True)
     def post(self):
         """Creates a new User """
         auth_header = request.headers.get('Authorization')
-        data = request.json
-        return register(data, auth_header)
+        return register(auth_header)
 
 
 @api.route('/verifylogin')
@@ -42,12 +40,19 @@ class QRLoginVerify(Resource):
 
 @api.route('/verifyregister')
 class QRRegisterVerify(Resource):
-    @api.expect(_qr_login, validate=True)
+    @api.expect(_qr_register, validate=True)
     def post(self):
         """Creates a new User """
         auth_header = request.headers.get('Authorization')
         data = request.json
         return register_verify(data, auth_header)
+
+@api.route('/checkifregister')
+class CheckIfRegister(Resource):
+    def post(self):
+        """Creates a new User """
+        auth_header = request.headers.get('Authorization')
+        return check_if_register(auth_header)
 
 
 
