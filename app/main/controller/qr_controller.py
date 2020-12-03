@@ -12,12 +12,10 @@ _qr_register = QrDto.qr_register
 
 @api.route('/login')
 class QRLogin(Resource):
-    @api.expect(_qr_login, validate=True)
     def post(self):
         """Creates a new User """
         auth_header = request.headers.get('Authorization')
-        data = request.json
-        return login(data, auth_header)
+        return login(auth_header)
 
 
 @api.route('/register')

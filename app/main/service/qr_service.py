@@ -74,11 +74,12 @@ def login_verify(data, auth_header):
   '''
   hash = data.get('hash')
   user = token_to_user(auth_header)
-  data = decrypt(user.public_key, hash)
-  print(user.hash)
-  print(data)
-  print(hash)
-  if data == user.hash:
+  # data = decrypt(user.public_key, hash)
+
+  user.can_verify = 0
+  user.hash_verified = datetime.datetime.now()
+  save_changes(user)
+  if hash == user.hash:
     return {
       "message": "Success verification"
     }, 200
@@ -86,7 +87,7 @@ def login_verify(data, auth_header):
     "message": "hash cannot be verified"
   }, 401
 
-def login(data, auth_header):
+def login(auth_header):
   '''
     Check the JWT token received with the request.
     Create a hash and encrypt with the public key and send to the frontend
@@ -96,19 +97,19 @@ def login(data, auth_header):
     return {
       'message': 'User not found. Please check the user.'
     }, 401
-  hash = getHash()
-  user.hash = hash
-  user.hash_verified = datetime.datetime.utcnow()
-  user.can_verify = 0
+  random_string = getHash()
+  print(user.public_key)
+  # random_strig_hash = encrypt(bytes(user.public_key, 'utf-8'), bytes(random_string, 'utf-8'))
+  user.hash = random_string
+  user.can_verify = max_try+1
   save_changes(user)
   return {
-    'hash': user.hash
+    'hash': random_string
   }, 200
 
 
 def check_if_register(auth_header):
   user = token_to_user(auth_header)
-  print(user)
   if not user:
     return {
       'message': 'User not found.'
@@ -117,6 +118,8 @@ def check_if_register(auth_header):
     return {
       'message': "Maximum try occured"
     }, 402
+  user.can_verify = user.can_verify + 1
+  save_changes(user)
   if (datetime.datetime.now() - user.hash_verified).total_seconds() >= auth_time:
     return {
       'message': 'Max time has passed'
