@@ -5,6 +5,8 @@ from base64 import b64encode
 from app.main import db
 from ecies import encrypt, decrypt
 from ecies.utils import generate_eth_key, generate_key
+import binascii
+
 
 auth_time = 1000000000
 max_try = 3
@@ -99,12 +101,13 @@ def login(auth_header):
     }, 401
   random_string = getHash()
   print(user.public_key)
-  # random_strig_hash = encrypt(bytes(user.public_key, 'utf-8'), bytes(random_string, 'utf-8'))
+  random_string_hash = binascii.b2a_hex(encrypt(user.public_key, bytes(random_string, 'utf-8'))).decode('utf-8')
+  print(random_string_hash)
   user.hash = random_string
   user.can_verify = max_try+1
   save_changes(user)
   return {
-    'hash': random_string
+    'hash': random_string_hash
   }, 200
 
 
