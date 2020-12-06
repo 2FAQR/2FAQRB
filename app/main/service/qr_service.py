@@ -76,6 +76,7 @@ def login_verify(data, auth_header):
   '''
   hash = data.get('hash')
   user = token_to_user(auth_header)
+  print(user.email)
   # data = decrypt(user.public_key, hash)
 
   user.can_verify = 0
@@ -113,6 +114,7 @@ def login(auth_header):
 
 def check_if_register(auth_header):
   user = token_to_user(auth_header)
+  print(user.email)
   if not user:
     return {
       'message': 'User not found.'
