@@ -8,7 +8,7 @@ from ecies.utils import generate_eth_key, generate_key
 import binascii
 
 
-auth_time = 1000000000
+auth_time = 200
 max_try = 3
 
 def getHash():
